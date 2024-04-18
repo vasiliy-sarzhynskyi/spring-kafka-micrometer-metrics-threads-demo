@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: spring-kafka-micrometer-metrics-threads-demo
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ${spring.application.name}
+      auto-offset-reset: latest
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+
+server:
+  port: 8081
+
+management:
+  server:
+    port: 8082
+  info:
+    env:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: '*'
+
+app:
+  kafka:
+    listener:
+      concurrency: 10
+    monitoring:
+      pool-size: 4
+    consumer:
+      topics:
+        topic-1: demo-topic-1
+        topic-2: demo-topic-2
+        topic-3: demo-topic-3
+        topic-4: demo-topic-4
+        topic-5: demo-topic-5
+
